@@ -19,4 +19,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Генерация и созданение токена для входа
+     */
+    public function generateToken(){
+        $this->api_token = bin2hex(random_bytes(30));
+        $this->save();
+    }
 }

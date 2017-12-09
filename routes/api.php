@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/auth', 'Auth\LoginController@login');
+Route::get('/get/categories', 'API\ApiCategoryController@get');
+Route::get('/get/category/{id}/goods', 'API\ApiCategoryController@get_goods');
+
+Route::middleware('api_auth')->group(function () {
+    Route::post('/create/category', 'API\ApiCategoryController@create');
 });
