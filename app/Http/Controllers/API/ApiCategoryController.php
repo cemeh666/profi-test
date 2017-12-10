@@ -51,4 +51,34 @@ class ApiCategoryController extends Controller
         return $this->sendErrorResponse($result);
     }
 
+    /**
+     * Изменение категории
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(Request $request, $id){
+        $category  = Category::findOrFail($id);
+
+        $result = Category::edit_category($category, $request->all());
+        if($result instanceof Category){
+            return $this->sendSuccessResponse($result);
+        }
+        return $this->sendErrorResponse($result);
+    }
+
+    /**
+     * Удаление категории
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id){
+        $category  = Category::findOrFail($id);
+        $result    = Category::delete_category($category);
+        if($result){
+            return $this->sendSuccessResponse(['delete' => 'Удаление прошло успешно']);
+        }
+        return $this->sendErrorResponse(['delete' => 'Ошибка удаления']);
+    }
+
 }

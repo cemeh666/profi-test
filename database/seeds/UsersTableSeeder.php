@@ -17,13 +17,11 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->truncate();
 
-        foreach (range(1, 3) as $item){
-            \App\User::create([
-                'name' => "test-user$item",
-                'email' => "test-user$item@test.test",
-                'password' => bcrypt("test-user$item@test.test"),
-            ]);
-        }
+        \App\User::create([
+            'name' => "test-user",
+            'email' => "test-user@test.test",
+            'password' => bcrypt("test-user@test.test")
+        ]);
     }
 
 }

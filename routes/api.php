@@ -11,10 +11,19 @@
 |
 */
 
-Route::post('/auth', 'Auth\LoginController@login');
-Route::get('/get/categories', 'API\ApiCategoryController@get');
-Route::get('/get/category/{id}/goods', 'API\ApiCategoryController@get_goods');
+Route::post('/auth',                'Auth\LoginController@login');
+Route::get('/categories',           'API\ApiCategoryController@get');
+Route::get('/category/{id}/goods',  'API\ApiCategoryController@get_goods');
 
 Route::middleware('api_auth')->group(function () {
-    Route::post('/create/category', 'API\ApiCategoryController@create');
+    //создание
+    Route::post('/category', 'API\ApiCategoryController@create');
+    Route::post('/goods',    'API\ApiGoodsController@create');
+    //изменение
+    Route::put('/goods/{id}',    'API\ApiGoodsController@edit');
+    Route::put('/category/{id}', 'API\ApiCategoryController@edit');
+    //удаление
+    Route::delete('/goods/{id}',    'API\ApiGoodsController@delete');
+    Route::delete('/category/{id}', 'API\ApiCategoryController@delete');
+
 });

@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class Handler extends ExceptionHandler
 {
     /**
@@ -68,6 +68,13 @@ class Handler extends ExceptionHandler
     }
     protected function convertExceptionToResponse(Exception $e)
     {
+        if ($e->getPrevious() instanceof ModelNotFoundException) {
+            $query_ids = implode(', ', $e->getPrevious()->getIds());
+            return response()->json([
+                'status'  => 'Error',
+                'message' => "Нет результата по запросу к моделе [{$e->getPrevious()->getModel()}] {$query_ids}"
+            ], 404);
+        }
         if (config('app.debug')) {
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);

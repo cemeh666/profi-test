@@ -25,7 +25,7 @@ class Category extends \Eloquent
     }
 
     /**
-     * Вылидация модели
+     * Валидация модели
      * @return bool|\Illuminate\Validation\Validator
      */
     public function Validate()
@@ -48,7 +48,7 @@ class Category extends \Eloquent
      * @param $inputs
      * @return Category|\Illuminate\Support\MessageBag
      */
-    public static function create_category($inputs){
+    public static function create_category(Array $inputs){
 
         $category = new Category([
             "category_name" => isset($inputs['category_name']) ? $inputs['category_name'] : '',
@@ -60,6 +60,33 @@ class Category extends \Eloquent
         }
 
         return $category->Validate()->getMessageBag();
+    }
+
+    /**
+     * Изменение категории
+     * @param Category $category
+     * @param $inputs
+     * @return Category|\Illuminate\Support\MessageBag
+     */
+    public static function edit_category(Category $category, Array $inputs){
+
+        $category->setAttribute('category_name', isset($inputs['category_name']) ? $inputs['category_name'] : '');
+
+        if($category->Validate() === true){
+            $category->save();
+            return $category;
+        }
+
+        return $category->Validate()->getMessageBag();
+    }
+
+
+    public static function delete_category(Category $category){
+        //удаление связанных товаров
+        $category->goods()->delete();
+        //Удаление связей товар-категория
+        CategoryGoods::deleteCategoryAttach($category);
+        return $category->delete();
     }
 
 }
