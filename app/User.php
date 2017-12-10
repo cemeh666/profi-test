@@ -26,5 +26,6 @@ class User extends Authenticatable
     public function generateToken(){
         $this->api_token = bin2hex(random_bytes(30));
         $this->save();
+        return $this->api_token;
     }
 }

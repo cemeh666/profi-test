@@ -33,7 +33,7 @@ class ApiCategoryController extends Controller
      */
     public function get_goods($id){
 
-        $category = Category::where('id', $id)->with('goods')->first();
+        $category = Category::with('goods')->findOrFail($id);
 
         return $this->sendSuccessResponse($category->goods);
     }

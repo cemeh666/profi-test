@@ -83,7 +83,9 @@ class Category extends \Eloquent
 
     public static function delete_category(Category $category){
         //удаление связанных товаров
-        $category->goods()->delete();
+        if(count($category->goods))
+            $category->goods()->delete();
+
         //Удаление связей товар-категория
         CategoryGoods::deleteCategoryAttach($category);
         return $category->delete();
