@@ -12,7 +12,9 @@
 */
 
 Route::post('/auth',                'Auth\LoginController@login');
+
 Route::get('/categories',           'API\ApiCategoryController@get');
+Route::get('/goods',                'API\ApiGoodsController@get');
 Route::get('/category/{id}/goods',  'API\ApiCategoryController@get_goods');
 
 Route::middleware('api_auth')->group(function () {
@@ -25,5 +27,7 @@ Route::middleware('api_auth')->group(function () {
     //удаление
     Route::delete('/goods/{id}',    'API\ApiGoodsController@delete');
     Route::delete('/category/{id}', 'API\ApiCategoryController@delete');
+
+    Route::post('/api_logout',      'Auth\LoginController@api_logout');
 
 });

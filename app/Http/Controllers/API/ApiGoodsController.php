@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 class ApiGoodsController extends Controller
 {
 
+    public function get(){
+        $result = Goods::with('category')->get();
+        return $this->sendSuccessResponse($result);
+    }
+
     /**
      * Создание товара
      * @param Request $request

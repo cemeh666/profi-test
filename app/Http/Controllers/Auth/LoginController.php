@@ -36,7 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+//        $this->middleware('guest')->except('logout');
     }
 
     public function login(Request $request)
@@ -51,6 +51,17 @@ class LoginController extends Controller
         }
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function api_logout(){
+        $user = \Auth::user();
+
+        if ($user) {
+            $user->api_token = null;
+            $user->save();
+        }
+
+        return $this->sendSuccessResponse(['user' => 'Вы успешно вышли']);
     }
 
     protected function sendFailedLoginResponse(Request $request)

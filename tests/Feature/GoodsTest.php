@@ -9,7 +9,32 @@ use Tests\TestCase;
 
 class GoodsTest extends TestCase
 {
-    public function testGetGoods()
+    public function testGetGoods(){
+        $this->json('GET', "api/goods")
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'data' => [
+                    '*' => [
+                        'id',
+                        'goods_title',
+                        'goods_description',
+                        'created_at',
+                        'updated_at',
+                        'category'=>[
+                            '*' => [
+                                'category_name',
+                                'id',
+                                'created_at',
+                                'updated_at'
+                            ]
+                        ]
+                    ],
+                ]
+            ]);
+    }
+
+    public function testGetCategoryGoods()
     {
         $category = Category::create_category(['category_name' => 'New Category']);
         $goods1 = Goods::create_goods(['goods_title' => 'Goods1', 'goods_description' => 'Description goods1', 'categories' => [$category->id]]);
