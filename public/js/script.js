@@ -40,7 +40,8 @@
        var categories   = $("[name='goods'] option:selected").attr('data-categories').split(',');
        var title        = $("[name='goods'] option:selected").attr('data-title').split(',');
        var description  = $("[name='goods'] option:selected").attr('data-description').split(',');
-       $('#multiselect_categories_goods').multiselect('deselectAll', true);
+       $('#multiselect_categories_goods').multiselect('deselectAll', false);
+       $('#multiselect_categories_goods').multiselect('updateButtonText');
        $('#multiselect_categories_goods').multiselect('select', categories);
 
        $("#goods_edit_title").val(title);
