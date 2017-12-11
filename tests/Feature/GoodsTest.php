@@ -147,6 +147,44 @@ class GoodsTest extends TestCase
             ]);
     }
 
+    public function testCreateGoodsFailedNoValidCategory()
+    {
+        $user     = User::first();
+        $token    = $user->generateToken();
+        $headers  = ['Authorization' => "$token"];
+        $payload  = ['goods_title' => 'Title goods', 'goods_description' => 'Description goods', 'categories' => [999, '123', [123]]];
+
+        $this->json('POST', 'api/goods', $payload, $headers)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'message'  => [
+                    'categories',
+                ]
+            ])->assertJson([
+                'status'  => "Error",
+                'message' => [
+                    'categories' => 'У категории под номером 1 неверный формат',
+                ]
+            ]);
+
+        $payload['categories'] = [123, 999];
+        $this->json('POST', 'api/goods', $payload, $headers)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'message'  => [
+                    'categories',
+                ]
+            ])->assertJson([
+                'status'  => "Error",
+                'message' => [
+                    'categories' => 'Нет категорий содержащихся в базе',
+                ]
+            ]);
+
+    }
+
     public function testCreateGoodsFailedNoInputs()
     {
         $user     = User::first();
@@ -254,6 +292,46 @@ class GoodsTest extends TestCase
                     'goods_description' => ["Нужно ввести описание Товара"]
                 ]
             ]);
+    }
+
+    public function testEditGoodsFailedNoValidCategory()
+    {
+        $user     = User::first();
+        $token    = $user->generateToken();
+        $headers  = ['Authorization' => "$token"];
+        $category = Category::create_category(['category_name' => 'New Category']);
+        $goods    = Goods::create_goods(['goods_title' => 'Goods', 'goods_description' => 'Description goods', 'categories' => [$category->id]]);
+
+        $payload  = ['goods_title' => 'Goods Edit', 'goods_description' => 'Description goods', 'categories' => [[999]]];
+        $this->json('PUT', 'api/goods/'.$goods->id, $payload, $headers)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'message'  => [
+                    'categories',
+                ]
+            ])->assertJson([
+                'status'  => "Error",
+                'message' => [
+                    'categories' => 'У категории под номером 0 неверный формат',
+                ]
+            ]);
+
+        $payload['categories'] = [123, 999];
+        $this->json('PUT', 'api/goods/'.$goods->id, $payload, $headers)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'message'  => [
+                    'categories',
+                ]
+            ])->assertJson([
+                'status'  => "Error",
+                'message' => [
+                    'categories' => 'Нет категорий содержащихся в базе',
+                ]
+            ]);
+
     }
 
     public function testDeleteGoods(){

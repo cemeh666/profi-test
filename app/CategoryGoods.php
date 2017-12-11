@@ -93,4 +93,20 @@ class CategoryGoods extends \Eloquent
         $category->goods()->detach();
 
     }
+
+    public static function checkValidCategoryIds(Array $categories){
+
+        $count_valid = 0;
+        foreach ($categories as $key => $category){
+
+            if(!is_int($category))
+                return "У категории под номером $key неверный формат";
+
+            if(Category::where('id', $category)->exists())
+                $count_valid++;
+        }
+        if(!$count_valid) return 'Нет категорий содержащихся в базе';
+
+        return true;
+    }
 }
