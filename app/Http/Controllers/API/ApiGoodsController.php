@@ -57,9 +57,12 @@ class ApiGoodsController extends Controller
     public function delete($id){
         $goods  = Goods::findOrFail($id);
         $result = Goods::delete_goods($goods);
+
         if($result){
-            return $this->sendSuccessResponse(['delete' => 'Удаление прошло успешно']);
+            return $this->sendSuccessResponse([], 'Удаление прошло успешно');
         }
-        return $this->sendErrorResponse(['delete' => 'Ошибка удаления']);
+
+        return $this->sendErrorResponse(['id' => ['Ошибка удаления']]);
+
     }
 }

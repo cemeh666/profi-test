@@ -54,12 +54,12 @@
     <div class="panel-body">
         <form class="form" method="put" action="" data-action="/api/category/" data-form-edit-category>
             <div class="form-group">
-                <label for="">Выберите категорию для изменения</label>
-                <select name="categories_list" id="" class="form-control">
+                <label>Выберите категорию для изменения</label>
+                <select name="categories_list" class="form-control">
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Новое название категории">
+                <input type="text" name="category_name" class="form-control" placeholder="Новое название категории">
             </div>
             <button type="submit" class="btn btn-primary pull-right">Изменить категорию</button>
 
@@ -84,8 +84,8 @@
     <div class="panel-body">
         <form class="form-inline" method="delete" action="" data-action="/api/category/" data-form-delete-category>
             <div class="form-group">
-                <label for="">Удаление категории</label>
-                <select name="categories_list" id="" class="form-control"></select>
+                <label>Удаление категории</label>
+                <select name="categories_list" class="form-control"></select>
             </div>
 
             <button type="submit" class="btn btn-primary pull-right">Удалить</button>

@@ -14,13 +14,17 @@ class Controller extends BaseController
     /**
      * Положительный ответ сервера
      * @param array $data
+     * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendSuccessResponse($data = []){
-        return response()->json([
+    public function sendSuccessResponse($data = [], $message = ''){
+        $response = [
             'status'  => 'Ok',
+            'message' => $message,
             'data'    => $data
-        ], 200);
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**

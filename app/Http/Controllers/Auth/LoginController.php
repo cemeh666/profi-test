@@ -61,12 +61,12 @@ class LoginController extends Controller
             $user->save();
         }
 
-        return $this->sendSuccessResponse(['user' => 'Вы успешно вышли']);
+        return $this->sendSuccessResponse([], 'Вы успешно вышли');
     }
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        $errors = [$this->username() => trans('auth.failed')];
+        $errors = [$this->username() => [trans('auth.failed')]];
 
         if ($request->expectsJson()) {
             return $this->sendErrorResponse($errors);

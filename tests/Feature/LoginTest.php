@@ -61,10 +61,9 @@ class LoginTest extends TestCase
         $this->json('POST', 'api/api_logout', [], $headers)
             ->assertStatus(200)
             ->assertJson([
-                'status' => 'Ok',
-                'data' => [
-                    'user' => 'Вы успешно вышли'
-                ],
+                'status'  => 'Ok',
+                'message' => 'Вы успешно вышли',
+                'data'    => [],
             ]);
     }
 

@@ -98,7 +98,8 @@ $( document ).ready(function() {
                 var create_category = $(form).attr('data-form-create-category');
                 var delete_category = $(form).attr('data-form-delete-category');
                 var delete_goods = $(form).attr('data-form-delete-goods');
-                if (typeof attr !== typeof undefined && attr !== false) {
+
+                if (typeof attr !== typeof undefined && attr !== false && data.status == 'Ok') {
                     setCookie('api_token', data.data.api_token, {expires:365});
                 }
                 if(typeof create_category !== typeof undefined && create_category !== false && data.status == 'Ok')

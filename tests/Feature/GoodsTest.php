@@ -270,9 +270,8 @@ class GoodsTest extends TestCase
                 'data'
             ])->assertJson([
                 'status'  => "Ok",
-                'data' => [
-                    'delete' => 'Удаление прошло успешно',
-                ]
+                'message' => "Удаление прошло успешно",
+                'data'    => []
             ]);
 
         $this->json('DELETE', 'api/goods/'.$goods->id, [], $headers)

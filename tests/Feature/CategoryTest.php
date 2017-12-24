@@ -121,10 +121,9 @@ class CategoryTest extends TestCase
                 'status',
                 'data'
             ])->assertJson([
-                'status'  => "Ok",
-                'data' => [
-                    'delete' => 'Удаление прошло успешно',
-                ]
+                'status'   => "Ok",
+                'message'  => "Удаление прошло успешно",
+                'data'     => []
             ]);
         $this->json('DELETE', 'api/category/'.$category->id, [], $headers)
             ->assertStatus(404)

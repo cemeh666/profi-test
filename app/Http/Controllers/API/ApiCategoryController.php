@@ -75,10 +75,13 @@ class ApiCategoryController extends Controller
     public function delete($id){
         $category  = Category::findOrFail($id);
         $result    = Category::delete_category($category);
+
         if($result){
-            return $this->sendSuccessResponse(['delete' => 'Удаление прошло успешно']);
+            return $this->sendSuccessResponse([], 'Удаление прошло успешно');
         }
-        return $this->sendErrorResponse(['delete' => 'Ошибка удаления']);
+
+        return $this->sendErrorResponse(['id' => ['Ошибка удаления']]);
+
     }
 
 }

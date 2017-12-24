@@ -5,7 +5,7 @@
             <form class="form-inline" method="get" action="" data-action="/api/category/{id}/goods" data-form-get-goods>
                 <div class="form-group">
                     <label>Выбор категорий</label>
-                    <select name="categories_list" id="" class="form-control"></select>
+                    <select name="categories_list" class="form-control"></select>
                 </div>
                 <button type="submit" class="btn btn-primary pull-right">Показать товары</button>
 
@@ -35,11 +35,11 @@
                 </div>
                 <div class="form-group">
                     <label>Название товара</label>
-                    <input type="text" name="goods_title" id="" class="form-control" />
+                    <input type="text" name="goods_title" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label>Описание товара</label>
-                    <textarea name="goods_description" id="" cols="10" rows="2" class="form-control"></textarea>
+                    <label for="goods_description">Описание товара</label>
+                    <textarea name="goods_description" id="goods_description" cols="10" rows="2" class="form-control"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary pull-right">Создать товары</button>
 
@@ -104,8 +104,8 @@
         <div class="panel-body">
             <form class="form-inline" method="delete" action="" data-action="/api/goods/{id}" data-form-delete-goods>
                 <div class="form-group">
-                    <label for="">Удаление товара</label>
-                    <select name="goods" id="" class="form-control"></select>
+                    <label for="goods">Удаление товара</label>
+                    <select name="goods" id="goods" class="form-control"></select>
                 </div>
 
                 <button type="submit" class="btn btn-primary pull-right">Удалить</button>
