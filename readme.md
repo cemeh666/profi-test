@@ -1,5 +1,7 @@
 ## Установка
 
+Описание тестового задания доступно <a href="http://profi-test.nn-rus.ru/%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5%20%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F.pdf">тут</a>
+
 После базовой конфигурации Laravel 5.4 <a href="https://laravel.com/docs/5.4/configuration">настройка</a>
 
 Необходимо выполнить следующие команды:
@@ -20,6 +22,40 @@ php artisan user:registration
 После чего следовать инструкции в консоле
 
 
+## Структура ответа на запрос
+
+Структура ответа на успешное прохождение запроса:
+```javascript
+{
+  status: "Ok", // Статус результата на запрос Ok или Error
+  message: '',  // Строка (сопроводительное сообщение)
+  data: []      // Массив с результатами запроса 
+}
+```
+
+Структура ответа при ошибке в запросе:
+```javascript
+{
+  status: "Error", // Статус результата на запрос Ok или Error
+  message: [
+      'название поля в котором произошла ошибка': [
+          'Текст ошибки1',
+          'Текст ошибки2',
+          ...
+      ]
+  ]  // Массив с выводом ошибок (обрабатываемое поле => [массив с описанием ошибок])
+}
+```
+
+При получении статуса ответа отличного от `200` структура ответа - следующая:
+
+```javascript
+{
+  status: "Error", // Статус результата на запрос Ok или Error
+  message: ''      // Строка с сообщением об ошибке 
+}
+```
+
 ## Запросы
 
 - **Вывод всех категорий**
@@ -34,6 +70,7 @@ $ curl -X GET http://profi-test.nn-rus.ru/api/categories
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: [ //массив с категориями
     {
       id: 1, //числовой идентификатор модели Category
@@ -50,12 +87,13 @@ $ curl -X GET http://profi-test.nn-rus.ru/api/categories
 Запрос:
 ```bash
 $ curl -X GET http://profi-test.nn-rus.ru/api/category/1/goods
-
 ```
+
 Ответ:
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: [ //массив с категориями
     {
       id: 1, //числовой идентификатор модели Goods
@@ -97,6 +135,7 @@ $ curl -X POST http://profi-test.nn-rus.ru/api/auth \
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: { 
     id: 1,                        //идентификатор пользователя
     name: "test-user",            //имя пользователя
@@ -119,12 +158,13 @@ $ curl -X POST http://profi-test.nn-rus.ru/api/category \
 -H "Content-type: application/json" \
 -H "Authorization: 5dd907958bb4e92fd416c8c423629839890fbff4c2bdebb8a37f1685b9a0" \
 -d "{\"category_name\": \"Новая категория\"}"
-
 ```
+
 Ответ:
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: {
     category_name: "Новая категория",  //название категории
     updated_at: "2017-12-11 21:59:32", //дата создани
@@ -145,12 +185,13 @@ $ curl -X PUT http://profi-test.nn-rus.ru/api/category/1 \
 -H "Content-type: application/json" \
 -H "Authorization: 5dd907958bb4e92fd416c8c423629839890fbff4c2bdebb8a37f1685b9a0" \
 -d "{\"category_name\": \"Изменённая категория\"}"
-
 ```
+
 Ответ:
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: {
     category_name: "Изменённая категория",  //название категории
     updated_at: "2017-12-10 22:25:47",      //дата создани
@@ -174,10 +215,9 @@ $ curl -X DELETE http://profi-test.nn-rus.ru/api/category/10 \
 Ответ:
 ```javascript
 {
-  status: "Ok",
-  data: {
-    delete: "Удаление прошло успешно" //сообщение об успешном удалении
-  }
+  status:  "Ok",
+  message: "Удаление прошло успешно", //сообщение об успешном удалении
+  data: {}
 }
 ```
 
@@ -198,6 +238,7 @@ $ curl -X POST http://profi-test.nn-rus.ru/api/goods \
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: {
     goods_title: "Название товара",       //название нового товара
     goods_description: "Описание товара", //его описание
@@ -224,6 +265,7 @@ $ curl -X PUT http://profi-test.nn-rus.ru/api/goods/14 \
 ```javascript
 {
   status: "Ok",
+  message: "",
   data: {
     id: 14,                                          //идентификатор товара
     goods_title: "Изменённое название товара",       //название изменённого товара
@@ -249,9 +291,8 @@ $ curl -X DELETE http://profi-test.nn-rus.ru/api/goods/14 \
 ```javascript
 {
   status: "Ok",
-  data: {
-    delete: "Удаление прошло успешно" //сообщение об успешном удалении
-  }
+  message: "Удаление прошло успешно", //сообщение об успешном удалении
+  data: {}
 }
 ```
 - **Выход из приложения (удаление api_token привязанного к пользователю)**
@@ -263,15 +304,14 @@ $ curl -X DELETE http://profi-test.nn-rus.ru/api/goods/14 \
 $ curl -X POST http://profi-test.nn-rus.ru/api/api_logout \
 -H "Accept: application/json" \
 -H "Authorization: 5dd907958bb4e92fd416c8c423629839890fbff4c2bdebb8a37f1685b9a0" 
-
 ```
+
 Ответ:
 ```javascript
 {
-  status: "Ok",
-  data: {
-    user: "Вы успешно вышли"
-  }
+  status:  "Ok",
+  message: "Вы успешно вышли",
+  data: {}
 }
 ```
 После выхода токен является недействительным
