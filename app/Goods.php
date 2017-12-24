@@ -48,8 +48,8 @@ class Goods extends \Eloquent
 
     /**
      * Создание товара
-     * @param $inputs
-     * @return Goods|\Illuminate\Support\MessageBag
+     * @param array $inputs
+     * @return Goods|array|\Illuminate\Support\MessageBag
      */
     public static function create_goods(Array $inputs){
 
@@ -60,6 +60,11 @@ class Goods extends \Eloquent
         ]);
 
         if($goods->Validate() === true){
+            //проверка на существование и правильный формат категорий
+            $check_validation_category = CategoryGoods::checkValidCategoryIds($goods['categories']);
+            if($check_validation_category !== true)
+                return ['categories' => $check_validation_category];
+
             unset($goods['categories']);
             $goods->save();
 
@@ -75,7 +80,7 @@ class Goods extends \Eloquent
      * Изменение товара
      * @param Goods $goods
      * @param $inputs
-     * @return Goods|\Illuminate\Support\MessageBag
+     * @return Goods|array|\Illuminate\Support\MessageBag
      */
     public static function edit_goods(Goods $goods, Array $inputs){
 
@@ -84,6 +89,11 @@ class Goods extends \Eloquent
         $goods->setAttribute('categories',          isset($inputs['categories'])        ? $inputs['categories'] : '');
 
         if($goods->Validate() === true){
+            //проверка на существование и правильный формат категорий
+            $check_validation_category = CategoryGoods::checkValidCategoryIds($goods['categories']);
+            if($check_validation_category !== true)
+                return ['categories' => $check_validation_category];
+
             unset($goods['categories']);
             $goods->save();
             //удаление и создание новых связей товар-категория
